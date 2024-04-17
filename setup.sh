@@ -38,8 +38,7 @@ cd espnet
 log "my-receipe created in espnet/egs2."
 
 # move data into receipe folder
-cd ../..# current dir: espnet/tools
-
+cd ../..
 mkdir -p nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 mv nycu-iass-dl2024-taiwanese-asr-data/* nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 rm -rf nycu-iass-dl2024-taiwanese-asr-data
@@ -54,6 +53,8 @@ cp report1/conf/* nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/con
 cp report1/scripts/run_task1.sh nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/run_task1.sh
 cp report1/scripts/run_task2.sh nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/run_task2.sh
 cp report1/scripts/run_task3.sh nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/run_task3.sh
+cp report1/scripts/cleanup.sh nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/cleanup.sh
+cp report1/scripts/export_test_to_submission.py nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/export_test_to_submission.py
 log "scripts and config files copied into my-receipe."
 
 # install additional dependencies
