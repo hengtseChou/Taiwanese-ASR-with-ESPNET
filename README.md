@@ -4,6 +4,11 @@ img link example:
 
 ![acc](https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/acc.png)
 
+
+<p align="center">
+  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/acc.png?raw=true" alt="acc"/>
+</p>
+
 ## Environment
 
 ## Setup

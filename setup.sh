@@ -38,7 +38,8 @@ cd espnet
 log "my-receipe created in espnet/egs2."
 
 # move data into receipe folder
-cd ../..
+cd ../..# current dir: espnet/tools
+
 mkdir -p nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 mv nycu-iass-dl2024-taiwanese-asr-data/* nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 rm -rf nycu-iass-dl2024-taiwanese-asr-data
