@@ -12,21 +12,26 @@ log() {
 
 # create project folder in parent folder
 cd ..
+rm -rf nycu-iass-dl2024-taiwanese-asr
 mkdir -p nycu-iass-dl2024-taiwanese-asr/
 log "created nycu-iass-dl2024-taiwanese-asr/ at parent directory."
 log "start cloning espnet."
 cd nycu-iass-dl2024-taiwanese-asr
 git clone https://github.com/espnet/espnet.git
 cd espnet/tools
-./setup_anaconda.sh miniconda espnet 3.9
-make
+log "installing conda environment..."
+# ./setup_anaconda.sh miniconda espnet 3.9
+# log "installing espnet..."
+# make
 log "espnet setup completed."
 
 # download and unzip data
 # assume user have api working
 cd ../../..
+rm -f nycu-iass-dl2024-taiwanese-asr.zip
 kaggle competitions download -c nycu-iass-dl2024-taiwanese-asr
 log "data unzip started."
+rm -rf nycu-iass-dl2024-taiwanese-asr-data
 unzip nycu-iass-dl2024-taiwanese-asr.zip -d nycu-iass-dl2024-taiwanese-asr-data/ > /dev/null
 log "data unzip completed."
 
@@ -42,7 +47,7 @@ cd ../..
 mkdir -p nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 mv nycu-iass-dl2024-taiwanese-asr-data/* nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/downloads/
 rm -rf nycu-iass-dl2024-taiwanese-asr-data
-log "moved data into my-receipe."
+log "moved train/, test/ to under my-receipe/asr1/downloads/."
 
 # copy scripts and configs into receipe folder
 mkdir -p nycu-iass-dl2024-taiwanese-asr/espnet/egs2/my-receipe/asr1/local
