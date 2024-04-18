@@ -11,8 +11,7 @@ log() {
 }
 
 SECONDS=0
-data_root=./downloads
-data_dir=nycu-iass-dl2024-taiwanese-asr
+raw_data_root=./downloads
 train_val_ratio=0.8
 
 log "$0 $*"
@@ -30,18 +29,18 @@ fi
 log "data preparation"
 
 mkdir -p data/{train,val,test}
-    python3 local/data_prep.py $data_root/$data_dir
+python3 local/data_prep.py $raw_data_root
 
-    for x in train val; do
-        for f in text wav.scp utt2spk; do
-            sort data/${x}/${f} -o data/${x}/${f}
-        done
-        utils/utt2spk_to_spk2utt.pl data/${x}/utt2spk >data/${x}/spk2utt
+for x in train val; do
+    for f in text wav.scp utt2spk; do
+        sort data/${x}/${f} -o data/${x}/${f}
     done
+    utils/utt2spk_to_spk2utt.pl data/${x}/utt2spk > data/${x}/spk2utt
+done
 
 for f in wav.scp utt2spk; do
     sort data/test/${f} -o data/test/${f}
 done
-utils/utt2spk_to_spk2utt.pl data/test/utt2spk >data/test/spk2utt
+utils/utt2spk_to_spk2utt.pl data/test/utt2spk > data/test/spk2utt
 
 log "Successfully finished. [elapsed=${SECONDS}s]"

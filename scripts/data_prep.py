@@ -15,8 +15,6 @@ args = parser.parse_args()
 data_dir = args.data_dir
 split_ratio = args.split_ratio
 
-### train
-
 transcription_path = os.path.join(data_dir, "train", "train.csv")
 if TONELESS is True:
     transcription_path = os.path.join(data_dir, "train", "train-toneless.csv")
@@ -30,9 +28,11 @@ train_idx = random.sample(all_idx, k=round(len(all_idx) * 0.8))
 val_idx = [idx for idx in all_idx if idx not in train_idx]
 subset_vs_idx = {"train": train_idx, "val": val_idx}
 
-for subset, idxs in subset_vs_idx.items():
+# text: id to transcript
+# wav.scp: id to file path
+# utt2spk: id to speaker (only 1 speaker in this case)
 
-    idxs = sorted(idxs)
+for subset, idxs in subset_vs_idx.items():
 
     with open(os.path.join("data", subset, "text"), "w") as text_f, open(
         os.path.join("data", subset, "wav.scp"), "w"
@@ -51,8 +51,6 @@ for subset, idxs in subset_vs_idx.items():
                 f"{train_id} {os.path.join(data_dir, 'train', 'train', train_id + '.wav')}\n"
             )
             utt2spk_f.write(f"{train_id} Speaker1\n")
-
-### test
 
 test_files = os.listdir(os.path.join(data_dir, "test", "test"))
 test_ids = [t.split(".")[0] for t in test_files]
