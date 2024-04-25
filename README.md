@@ -135,7 +135,7 @@ This script is used in `asr.sh` to:
 
 In task 1, we choose a **Branchformer** as the encoder, and a **Transformer** as the decoder. A branchformer encoder can efficiently handles long audio sequences, which enables better feature extraction from audio signals. On the other hand, a transformer decoder leverages language modeling capability for accurate transcription, and offers flexibility in modeling language and context.
 
-The training config is almost identical to `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`, except `batch_bins` are modified as **3000000**, to accomodate the memory limitation from graphic card. 
+The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`. It is almost identical to the original one, except `batch_bins` are modified as **3000000**, to accomodate the memory limitation from graphic card. 
 
 **Adam** is adopted for the optimizer, with **warmuplr** as the learning rate scheduler. The initial learning rate is set by **1.0e-3**.
 
@@ -177,7 +177,7 @@ The final wer scoring over the testing data:
 
 In task 2, we are asked to combine a SSL (Self-Supervised Learning) pre-trained model to ASR, using S3PRL toolkit. 
 
-The training config are modified from `egs2/librispeech/asr1/conf/tuning/train_asr_conformer7_wav2vec2_960hr_large.yaml`. The upstream model adopted here is **WavLM**, which is a type of language model designed to operate directly on raw audio waveforms rather than on text representations. Here we use `wavlm_base` and `batch_bins` is set by **2000000**.
+The training config is modified from `egs2/librispeech/asr1/conf/tuning/train_asr_conformer7_wav2vec2_960hr_large.yaml`. The upstream model adopted here is **WavLM**, which is a type of language model designed to operate directly on raw audio waveforms rather than on text representations. Here we use `wavlm_base` and `batch_bins` is set by **2000000**.
 
 Besides the pre-trained frontend, the encoder adopted in this task is **Conformer**, which leverages the strengths of both convolutional neural networks and transformers to achieve efficient feature extraction. 
 
@@ -217,6 +217,18 @@ Both scoring are better than task 1. It shows that combining a pre-trained model
 
 ### Configuration
 
+In task 3, we are asked to complete the ASR task with OpenAI Whisper, which is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
+
+The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_whisper_medium_lora_finetune.yaml`. The model size we adopted here for the encoder and the decoder are both the **small** model. The `batch_bins` are set by 3000000.
+
+Moreover, to fintune the whisper model, the adapter `LoRA` is specified. An adapter is layer added to a pre-trained model to adapt it to specific tasks or domains without extensively retraining the entire model. Adapters are designed to introduce task-specific knowledge into a pre-trained model by learning only a small number of parameters, thus preserving the general knowledge learned during pre-training.
+
+The optimizer is set as **adamw**, and the learning rate scheduler is still **warmuplr**. The initial learning rate is set as **1.25e-05**, which is recommended in [this README](https://github.com/vasistalodagala/whisper-finetune).
+
+For the run script, we also specified the tokenizer as **whisper_multilingual**.
+
+In this task, the training of each epoch is more time-consuming, and the valid accuracy did not improve much over epochs, therefore a smaller value of maximum number of epochs, **10**, is used.
+
 ### Training
 
 <p align="center">
@@ -233,9 +245,12 @@ Both scoring are better than task 1. It shows that combining a pre-trained model
 
 ### Result
 
-The final public wer scoring over the testing data is **0.26092**, which has out-performed the previous two models, and the improvement is greater than the one with task 1 and task 2.
+The final wer scoring over the testing data:
+  - Public: 0.26092
+  - Private: 0.26828
 
-0.26092 (0.38026 when lr=1.0e-4)
+
+
 
 ## Comparison & Conclusion
 
