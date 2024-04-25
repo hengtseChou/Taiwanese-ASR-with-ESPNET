@@ -17,7 +17,7 @@ freeze_param: [
 frontend: s3prl
 frontend_conf:
     frontend_conf:
-        upstream: hubert_base  # Note: If the upstream is changed, please change the input_size in the preencoder.
+        upstream: wavlm_base  # Note: If the upstream is changed, please change the input_size in the preencoder.
     download_dir: ./hub
     multilayer_feature: True
 
