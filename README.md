@@ -4,9 +4,15 @@ This is the report of the first Kaggle inClass competition of NYCU-IAIS-DL2024, 
 
 Final wer scores:
 
-- Task 1: 0.658
-- Task 2: 0.57022
-- Task 3: 0.26092
+- Task 1
+  - Public: 0.658
+  - Private: 0.62739
+- Task 2
+  - Public: 0.57022
+  - Private: 0.56481
+- Task 3
+  - Public: 0.26092
+  - Private: 0.26828
 
 **Table of Contents**
 
@@ -127,13 +133,15 @@ This script is used in `asr.sh` to:
 
 ### Configuration
 
-In task 1, we choose a **Branchformer** as encoder, and a **Transformer** as decoder. A Branchformer encoder can efficiently handles long audio sequences, which enables better feature extraction from audio signals. On the other hand, a transformer decoder leverages language modeling capability for accurate transcription, and offers flexibility in modeling language and context.
+In task 1, we choose a **Branchformer** as the encoder, and a **Transformer** as the decoder. A branchformer encoder can efficiently handles long audio sequences, which enables better feature extraction from audio signals. On the other hand, a transformer decoder leverages language modeling capability for accurate transcription, and offers flexibility in modeling language and context.
 
-The training config is almost identical to `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`, except `batch_bins` are modified as 3000000, to accomodate the memory limitation from graphic card. 
+The training config is almost identical to `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`, except `batch_bins` are modified as **3000000**, to accomodate the memory limitation from graphic card. 
 
 **Adam** is adopted for the optimizer, with **warmuplr** as the learning rate scheduler. The initial learning rate is set by **1.0e-3**.
 
-Finally, a max number of epochs is set by 60, to prevent the training being too time-consuming.
+In the run script, a data augmentation of **speed perturbation** is specified, and the token type is set as **char**. A character tokenizer operates at the character level and treats each character in the text as a seperate token, which is more suitable for Taiwanese language.
+
+Finally, a maximum number of epochs is set by **60**, to prevent the training being too time-consuming.
 
 ### Training
 
@@ -167,7 +175,15 @@ The final wer scoring over the testing data:
 
 ### Configuration
 
-In task 2, we are asked to combine a pre-trained model to ASR, using S3PRL toolkit. 
+In task 2, we are asked to combine a SSL (Self-Supervised Learning) pre-trained model to ASR, using S3PRL toolkit. 
+
+The training config are modified from `egs2/librispeech/asr1/conf/tuning/train_asr_conformer7_wav2vec2_960hr_large.yaml`. The upstream model adopted here is **WavLM**, which is a type of language model designed to operate directly on raw audio waveforms rather than on text representations. Here we use `wavlm_base` and `batch_bins` is set by **2000000**.
+
+Besides the pre-trained frontend, the encoder adopted in this task is **Conformer**, which leverages the strengths of both convolutional neural networks and transformers to achieve efficient feature extraction. 
+
+The optimizer and the learning rate scheduler are still **adam** and **warmuplr**. The initial learning rate are set to **2.5e-3**.
+
+The run script has the same config as task 1. The maximum number of epochs is set by **35**.
 
 ### Training
 
@@ -175,23 +191,27 @@ In task 2, we are asked to combine a pre-trained model to ASR, using S3PRL toolk
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/acc.png?raw=true" alt="acc-task2"/>
 </p>
 
-The accuracy grows faster than task 1 over epochs.
+The accuracy grows faster than task 1 over epochs. The increment is not significant after the 24th epoch, so maybe we can set a lower number of maximum epoch to save time.
 
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/loss.png?raw=true" alt="loss-task2"/>
 </p>
 
-The improvement can also be noticed in loss.
+The improvement can also be noticed in the loss.
 
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/wer.png?raw=true" alt="wer-task2"/>
 </p>
 
-The wer in task 2 converges more faster and is more stable.
+The convergence of wer in task 2 is more faster and stable.
 
 ### Result
 
-The final public wer scoring over the testing data is **0.57022**, which has out-performed the model we trained in task 1.
+The final wer scoring over the testing data:
+  - Public: 0.57022
+  - Private: 0.56481
+  
+Both scoring are better than task 1. It shows that combining a pre-trained model can improve the performance of a ASR task.
 
 ## Task 3
 
