@@ -1,6 +1,12 @@
 # taiwanese-speech-recognition-using-espnet-toolkit-A112092
 
-This is the report of the first Kaggle inClass competition of NYCU-IASS-DL2024. The goal is to make Taiwanese Speech Recognition using ESPnet Toolkit and Self-Supervised Pre-Trained Model.
+This is the report of the first Kaggle inClass competition of NYCU-IAIS-DL2024, by Heng-Tse Chou (NTHU STAT). The goal is to make Taiwanese Speech Recognition using ESPnet Toolkit and Self-Supervised Pre-Trained Model.
+
+Final wer scores:
+
+- Task 1: 0.658
+- Task 2: 0.57022
+- Task 3: 0.26092
 
 **Table of Contents**
 
@@ -89,8 +95,8 @@ Versions of relevant libraries:
 
 Run `setup.sh` under this directory, it will do the following things sequentially:
 
-- Create a directory `nycu-iass-dl2024-taiwanese-asr/` at parent directory.
-- Clone espnet into `nycu-iass-dl2024-taiwanese-asr/`.
+- Create a directory `nycu-iais-dl2024-taiwanese-asr/` at parent directory.
+- Clone espnet into `nycu-iais-dl2024-taiwanese-asr/`.
 - Set up a conda environment and install espnet.
 - Download and unzip the dataset.
 - Remove the unneeded receipes under `espnet/egs2`, and use `TEMPLATE` to generate `my-receipe`.
@@ -121,9 +127,17 @@ This script is used in `asr.sh` to:
 
 ### Configuration
 
+In task 1, we choose a **Branchformer** as encoder, and a **Transformer** as decoder. A Branchformer encoder can efficiently handles long audio sequences, which enables better feature extraction from audio signals. On the other hand, a transformer decoder leverages language modeling capability for accurate transcription, and offers flexibility in modeling language and context.
+
+The training config is almost identical to `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`, except `batch_bins` are modified as 3000000, to accomodate the memory limitation from graphic card. 
+
+**Adam** is adopted for the optimizer, with **warmuplr** as the learning rate scheduler. The initial learning rate is set by **1.0e-3**.
+
+Finally, a max number of epochs is set by 60, to prevent the training being too time-consuming.
+
 ### Training
 
-The train and valid accuracy over the training process is as follow:
+The train and valid accuracy over the training process are shown below.
 
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/acc.png?raw=true" alt="acc-task1"/>
@@ -135,7 +149,7 @@ We can see that even though being diverged for a while, the valid accuracy stays
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/loss.png?raw=true" alt="loss-task1"/>
 </p>
 
-The loss decreases steadily, and the trend is in correspondence with the training accuracy as well.
+The loss decreases with some fluctuations, and its trend is in correspondence with the accuracy as well.
 
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/wer.png?raw=true" alt="wer-task1"/>
@@ -145,11 +159,15 @@ The trend in wer is similar. All three plots suggest that our training in task 1
 
 ### Result
 
-The final public wer scoring over the testing data is **0.658**.
+The final wer scoring over the testing data:
+- Public: 0.658
+- Private: 0.62739
 
 ## Task 2
 
 ### Configuration
+
+In task 2, we are asked to combine a pre-trained model to ASR, using S3PRL toolkit. 
 
 ### Training
 
@@ -157,13 +175,19 @@ The final public wer scoring over the testing data is **0.658**.
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/acc.png?raw=true" alt="acc-task2"/>
 </p>
 
+The accuracy grows faster than task 1 over epochs.
+
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/loss.png?raw=true" alt="loss-task2"/>
 </p>
 
+The improvement can also be noticed in loss.
+
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/wer.png?raw=true" alt="wer-task2"/>
 </p>
+
+The wer in task 2 converges more faster and is more stable.
 
 ### Result
 
@@ -194,3 +218,5 @@ The final public wer scoring over the testing data is **0.26092**, which has out
 0.26092 (0.38026 when lr=1.0e-4)
 
 ## Comparison & Conclusion
+
+After 
