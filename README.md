@@ -135,7 +135,7 @@ This script is used in `asr.sh` to:
 
 In task 1, we choose a **Branchformer** as the encoder, and a **Transformer** as the decoder. A branchformer encoder can efficiently handles long audio sequences, which enables better feature extraction from audio signals. On the other hand, a transformer decoder leverages language modeling capability for accurate transcription, and offers flexibility in modeling language and context.
 
-The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`. It is almost identical to the original one, except `batch_bins` are modified as **3000000**, to accomodate the memory limitation from graphic card. 
+The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_branchformer_e24_amp.yaml`. It is almost identical to the original one, except `batch_bins` are modified as **3000000**, to accomodate the memory limitation from graphic card.
 
 **Adam** is adopted for the optimizer, with **warmuplr** as the learning rate scheduler. The initial learning rate is set by **1.0e-3**.
 
@@ -168,6 +168,7 @@ The trend in wer is similar. All three plots suggest that our training in task 1
 ### Result
 
 The final wer scoring over the testing data:
+
 - Public: 0.658
 - Private: 0.62739
 
@@ -175,11 +176,11 @@ The final wer scoring over the testing data:
 
 ### Configuration
 
-In task 2, we are asked to combine a SSL (Self-Supervised Learning) pre-trained model to ASR, using S3PRL toolkit. 
+In task 2, we are asked to combine a SSL (Self-Supervised Learning) pre-trained model to ASR, using S3PRL toolkit.
 
 The training config is modified from `egs2/librispeech/asr1/conf/tuning/train_asr_conformer7_wav2vec2_960hr_large.yaml`. The upstream model adopted here is **WavLM**, which is a type of language model designed to operate directly on raw audio waveforms rather than on text representations. Here we use `wavlm_base` and `batch_bins` is set by **2000000**.
 
-Besides the pre-trained frontend, the encoder adopted in this task is **Conformer**, which leverages the strengths of both convolutional neural networks and transformers to achieve efficient feature extraction. 
+Besides the pre-trained frontend, the encoder adopted in this task is **Conformer**, which leverages the strengths of both convolutional neural networks and transformers to achieve efficient feature extraction.
 
 The optimizer and the learning rate scheduler are still **adam** and **warmuplr**. The initial learning rate are set to **2.5e-3**.
 
@@ -208,9 +209,10 @@ The convergence of wer in task 2 is more faster and stable.
 ### Result
 
 The final wer scoring over the testing data:
-  - Public: 0.57022
-  - Private: 0.56481
-  
+
+- Public: 0.57022
+- Private: 0.56481
+
 Both scoring are better than task 1. It shows that combining a pre-trained model can improve the performance of a ASR task.
 
 ## Task 3
@@ -219,7 +221,7 @@ Both scoring are better than task 1. It shows that combining a pre-trained model
 
 In task 3, we are asked to complete the ASR task with OpenAI Whisper, which is a general-purpose speech recognition model. It is trained on a large dataset of diverse audio and is also a multitasking model that can perform multilingual speech recognition, speech translation, and language identification.
 
-The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_whisper_medium_lora_finetune.yaml`. The model size we adopted here for the encoder and the decoder are both the **small** model. The `batch_bins` are set by 3000000.
+The training config is modified from `egs2/aishell/asr1/conf/tuning/train_asr_whisper_medium_lora_finetune.yaml`. The model size we adopted here for the encoder and the decoder are both the **small** model. The `batch_bins` are set by **3000000**.
 
 Moreover, to fintune the whisper model, the adapter `LoRA` is specified. An adapter is layer added to a pre-trained model to adapt it to specific tasks or domains without extensively retraining the entire model. Adapters are designed to introduce task-specific knowledge into a pre-trained model by learning only a small number of parameters, thus preserving the general knowledge learned during pre-training.
 
@@ -227,7 +229,7 @@ The optimizer is set as **adamw**, and the learning rate scheduler is still **wa
 
 For the run script, we also specified the tokenizer as **whisper_multilingual**.
 
-In this task, the training of each epoch is more time-consuming, and the valid accuracy did not improve much over epochs, therefore a smaller value of maximum number of epochs, **10**, is used.
+In this task, the training of each epoch is more time-consuming, and the valid accuracy did not improve much over epochs, therefore we opt for a maximum of **10** epochs.
 
 ### Training
 
@@ -235,23 +237,34 @@ In this task, the training of each epoch is more time-consuming, and the valid a
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/acc.png?raw=true" alt="acc-task3"/>
 </p>
 
+The train accuarcy is already at 0.65 when the first epoch finishs, and the valid accuracy is even at 0.95, which both out-performed the previous two tasks. After 10 epochs, the train accuracy steadily grew to 0.95, while valid accuracy only improved by 0.025.
+
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/loss.png?raw=true" alt="loss-task3"/>
 </p>
+
+We may notice that there is a slight growth in the valid loss, meaning it might exists an overfitting situation. However, since both the train and valid loss are way smaller than the ones from the previous tasks, this situation is acceptable.
 
 <p align="center">
   <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/wer.png?raw=true" alt="wer-task3"/>
 </p>
 
+The wer scoring after the first epoch finishs is very small, comparing to the previous two tasks. After 10 epochs, the differeces became not that significant, but still better.
+
 ### Result
 
 The final wer scoring over the testing data:
-  - Public: 0.26092
-  - Private: 0.26828
 
+- Public: 0.26092
+- Private: 0.26828
 
-
+The scoring are the best among three tasks. It shows that Whisper has a better performance than a pre-trained model over an ASR task.
 
 ## Comparison & Conclusion
 
-After 
+
+
+On the other hands, after watching the reports from classmates in class, I realized there are several improvement for me can be made:
+
+- Add noise to the train data: I forgot that the testing data on Kaggle are modified with noises. To equip the model with the ability to detect noise, we should also introduce the noise into the triaing process, by modify the training data with noises. Moreover, the amount of noise can be adjusted as well.
+- Try different split ratio: Adjusting the ratio between train and valid may help prevent overfitting.
