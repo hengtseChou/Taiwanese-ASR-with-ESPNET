@@ -262,9 +262,9 @@ The scoring are the best among three tasks. It shows that Whisper has a better p
 
 ## Comparison & Conclusion
 
+The key finding in this assignment is that by "standing upon the shoulders of giants", the fine-tuned models are more powerful and robust than the model we trained from scratch using transformer-based architecture. By far, OpenAI Whisper is the most powerful pre-trained model for ASR tasks.
 
+On the other hands, after watching the reports from classmates with highest scores, I realized there are several improvement for me can be made:
 
-On the other hands, after watching the reports from classmates in class, I realized there are several improvement for me can be made:
-
-- Add noise to the train data: I forgot that the testing data on Kaggle are modified with noises. To equip the model with the ability to detect noise, we should also introduce the noise into the triaing process, by modify the training data with noises. Moreover, the amount of noise can be adjusted as well.
-- Try different split ratio: Adjusting the ratio between train and valid may help prevent overfitting.
+- **Add noises to the train data:** I forgot that the testing data on Kaggle are modified with noises. To equip the model with the ability to detect noise, we should also introduce the noise into the triaing process, by modify the training data with noises. Moreover, the amount of noise can be adjusted as well.
+- **Try different split ratio:** Adjusting the ratio between train/valid and use a bigger valid set may help prevent the model being overfitted.
