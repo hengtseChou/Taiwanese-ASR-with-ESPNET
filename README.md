@@ -1,4 +1,4 @@
-# taiwanese-speech-recognition-using-espnet-toolkit-A112092
+# taiwanese-speech-recognition-using-espnet-toolkit
 
 This is the report of the first Kaggle inClass competition of NYCU-IAIS-DL2024, by Heng-Tse Chou (NTHU STAT). The goal is to make Taiwanese Speech Recognition using ESPnet Toolkit and Self-Supervised Pre-Trained Model.
 
