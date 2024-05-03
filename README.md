@@ -148,19 +148,19 @@ Finally, a maximum number of epochs is set by **60**, to prevent the training be
 The train and valid accuracy over the training process are shown below.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/acc.png?raw=true" alt="acc-task1"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task1/acc.png?raw=true" alt="acc-task1"/>
 </p>
 
 We can see that even though being diverged for a while, the valid accuracy stays quite close with the train accuracy, and both values grow over the training process.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/loss.png?raw=true" alt="loss-task1"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task1/loss.png?raw=true" alt="loss-task1"/>
 </p>
 
 The loss decreases with some fluctuations, and its trend is in correspondence with the accuracy as well.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task1/wer.png?raw=true" alt="wer-task1"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task1/wer.png?raw=true" alt="wer-task1"/>
 </p>
 
 The trend in wer is similar. All three plots suggest that our training in task 1 is successful.
@@ -189,19 +189,19 @@ The run script has the same config as task 1. The maximum number of epochs is se
 ### Training
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/acc.png?raw=true" alt="acc-task2"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task2/acc.png?raw=true" alt="acc-task2"/>
 </p>
 
 The accuracy grows faster than task 1 over epochs. The increment is not significant after the 24th epoch, so maybe we can set a lower number of maximum epoch to save time.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/loss.png?raw=true" alt="loss-task2"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task2/loss.png?raw=true" alt="loss-task2"/>
 </p>
 
 The improvement can also be noticed in the loss.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task2/wer.png?raw=true" alt="wer-task2"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task2/wer.png?raw=true" alt="wer-task2"/>
 </p>
 
 The convergence of wer in task 2 is more faster and stable.
@@ -234,19 +234,19 @@ In this task, the training of each epoch is more time-consuming, and the valid a
 ### Training
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/acc.png?raw=true" alt="acc-task3"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task3/acc.png?raw=true" alt="acc-task3"/>
 </p>
 
 The train accuarcy is already at 0.65 when the first epoch finishs, and the valid accuracy is even at 0.95, which both out-performed the previous two tasks. After 10 epochs, the train accuracy steadily grew to 0.95, while valid accuracy only improved by 0.025.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/loss.png?raw=true" alt="loss-task3"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task3/loss.png?raw=true" alt="loss-task3"/>
 </p>
 
 We may notice that there is a slight growth in the valid loss, meaning it might exists an overfitting situation. However, since both the train and valid loss are way smaller than the ones from the previous tasks, this situation is acceptable.
 
 <p align="center">
-  <img src="https://github.com/Deep-Learning-NYCU/taiwanese-speech-recognition-using-espnet-toolkit-A112092/blob/main/img/task3/wer.png?raw=true" alt="wer-task3"/>
+  <img src="https://github.com/hank-chouu/Taiwanese-ASR-with-ESPNET/blob/main/img/task3/wer.png?raw=true" alt="wer-task3"/>
 </p>
 
 The wer scoring after the first epoch finishs is very small, comparing to the previous two tasks. After 10 epochs, the differeces became not that significant, but still better.
