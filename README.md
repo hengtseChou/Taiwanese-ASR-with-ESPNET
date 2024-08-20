@@ -18,7 +18,7 @@ Final wer scores:
 
 <!-- toc -->
 
-- [taiwanese-speech-recognition-using-espnet-toolkit-A112092](#taiwanese-speech-recognition-using-espnet-toolkit-a112092)
+- [taiwanese-speech-recognition-using-espnet-toolkit](#taiwanese-speech-recognition-using-espnet-toolkit)
   - [Environment](#environment)
   - [Setup](#setup)
   - [Data preparation](#data-preparation)
